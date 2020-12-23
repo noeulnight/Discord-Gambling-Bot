@@ -62,7 +62,6 @@ async function fn (client, msg, db) {
   end.setDescription('배팅한 ' + (many * money) + '￦ 을' + resultmoney + '￦ 으로 바꿨습니다.')
   const [moneyuser] = await db.where({ id: msg.author.id }).select('*').from('users')
   await db.where({ id: msg.author.id }).select('*').from('users').update({ coin: moneyuser.coin + resultmoney })
-  console.log(datas.length)
   m.edit(end)
 }
 

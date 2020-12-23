@@ -1,7 +1,7 @@
 const API = require('discord.js')
 
 async function fn (client, msg, db) {
-  let left = 9
+  let left = 4
   const number = Math.floor(Math.random() * (100 - 1 + 1)) + 1
   const warn = new API.MessageEmbed({
     title: ':warning: 배팅할수 없습니다.'
@@ -21,7 +21,7 @@ async function fn (client, msg, db) {
   }).setTimestamp().setFooter(msg.author.username, msg.author.avatarURL)
   const start = new API.MessageEmbed({
     title: '<:success:791086585864388638> 업다운 시작~',
-    description: '1부터 100 사이의 숫자를 총 10번 기회안에 맞춰보세요!\n30초 안에 작성하지 않을경우 배팅금액을 잃습니다.\n\nu>숫자 로 숫자를 맞추세요.'
+    description: '1부터 100 사이의 숫자를 총 5번 기회안에 맞춰보세요!\n30초 안에 작성하지 않을경우 배팅금액을 잃습니다.\n\nu>숫자 로 숫자를 맞추세요.'
   }).setTimestamp().setFooter(msg.author.username, msg.author.avatarURL)
   const success = new API.MessageEmbed({
     title: '<:success:791086585864388638> 배팅성공!~'

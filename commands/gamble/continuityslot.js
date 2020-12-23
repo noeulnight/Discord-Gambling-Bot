@@ -8,16 +8,15 @@ async function fn (client, msg, db) {
   const warn = new API.MessageEmbed({
     title: ':warning: 배팅할수 없습니다.'
   }).setTimestamp().setFooter(msg.author.username, msg.author.avatarURL)
-  const [user] = await db.where({ id: msg.author.id }).select('*').from('users')
   const money = Number(msg.content.split(' ')[1])
   const many = Number(msg.content.split(' ')[2])
+  const [user] = await db.where({ id: msg.author.id }).select('*').from('users')
   if (!money) return msg.channel.send(warn.setDescription('배팅할 금액을 입력해 주세요.\n남은 돈 : **' + user.coin + '￦**'))
   if (!many) return msg.channel.send(warn.setDescription('연속으로 실행할 수를 입력해 주세요.\n남은 돈 : **' + user.coin + '￦**'))
   if (user.coin < money) return msg.channel.send(warn.setDescription('유저의 돈이 부족합니다.\n남은 돈 : **' + user.coin + '￦**'))
   if (money < 10000) return msg.channel.send(warn.setDescription('10000 이하의 돈은 배팅할수 없습니다.\n남은 돈 : **' + user.coin + '￦**'))
   if (many > 25) return msg.channel.send(warn.setDescription('25번 이상 반복할수 없습니다.\n남은 돈 : **' + user.coin + '￦**'))
   if ((many * money) > user.coin) return msg.channel.send(warn.setDescription('유저의 돈이 부족합니다.\n남은 돈 : **' + user.coin + '￦**, 필요한 돈 : **' + (many * money) + '￦**'))
-  await db.where({ id: msg.author.id }).select('*').from('users').update({ coin: user.coin - (many * money) })
 
   const embed = new API.MessageEmbed({
     title: ':slot_machine: ' + many + '번 슬롯 머신을 돌렸습니다~',
@@ -61,7 +60,7 @@ async function fn (client, msg, db) {
   })
   end.setDescription('배팅한 ' + (many * money) + '￦ 을' + resultmoney + '￦ 으로 바꿨습니다.')
   const [moneyuser] = await db.where({ id: msg.author.id }).select('*').from('users')
-  await db.where({ id: msg.author.id }).select('*').from('users').update({ coin: moneyuser.coin + resultmoney })
+  await db.where({ id: msg.author.id }).select('*').from('users').update({ coin: moneyuser.coin + resultmoney - (many * money) })
   m.edit(end)
 }
 

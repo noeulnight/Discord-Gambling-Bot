@@ -38,7 +38,10 @@ async function fn (client, msg, db) {
   question()
   function question () {
     msg.channel.awaitMessages(m => m.author.id === msg.author.id && m.content.startsWith('u>'), { max: 1, time: 30000 }).then(async collected => {
-      if (!Number(collected.first().content.slice(2))) return msg.channel.send(typewarn)
+      if (!Number(collected.first().content.slice(2))) {
+        msg.channel.send(typewarn)
+        return question()
+      }
       if (Number(collected.first().content.slice(2)) < number) {
         --left
         if (left === 0) return msg.channel.send(fail.setDescription('결과는 ' + number + '이였습니다!'))

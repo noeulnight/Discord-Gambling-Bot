@@ -28,9 +28,7 @@ async function fn (client, msg, db) {
   if (money < 5000) return msg.channel.send(warn.setDescription('5000 이하의 돈은 배팅할수 없습니다.\n남은 돈 : **' + user.coin + '￦**'))
   await db.where({ id: msg.author.id }).select('*').from('users').update({ coin: user.coin - money })
   const m = await msg.channel.send(start)
-  m.react('1️⃣')
-  m.react('2️⃣')
-  m.react('3️⃣')
+  m.react('1️⃣'); m.react('2️⃣'); m.react('3️⃣')
 
   m.awaitReactions((r, u) => ['1️⃣', '2️⃣', '3️⃣'].includes(r.emoji.name) && u.id === msg.author.id, { max: 1, time: 30000, errors: ['time'] })
     .then(async collected => {

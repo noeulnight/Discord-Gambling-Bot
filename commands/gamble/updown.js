@@ -6,6 +6,9 @@ async function fn (client, msg, db) {
   const warn = new API.MessageEmbed({
     title: ':warning: 배팅할수 없습니다.'
   }).setTimestamp().setFooter(msg.author.username, msg.author.avatarURL)
+  const typewarn = new API.MessageEmbed({
+    title: ':warning: 올바른 숫자를 입력해주세요.'
+  }).setTimestamp().setFooter(msg.author.username, msg.author.avatarURL)
   const timeout = new API.MessageEmbed({
     title: ':warning: 30초가 지났습니다.',
     description: '배팅 금액 전부를 잃습니다.'
@@ -35,6 +38,7 @@ async function fn (client, msg, db) {
   question()
   function question () {
     msg.channel.awaitMessages(m => m.author.id === msg.author.id && m.content.startsWith('u>'), { max: 1, time: 30000 }).then(async collected => {
+      if (!Number(collected.first().content.slice(2))) return msg.channel.send(typewarn)
       if (Number(collected.first().content.slice(2)) < number) {
         --left
         if (left === 0) return msg.channel.send(fail.setDescription('결과는 ' + number + '이였습니다!'))
